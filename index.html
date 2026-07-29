@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mini City Game</title>
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    background:#87CEEB;
+}
+canvas{
+    display:block;
+    margin:auto;
+    background:#5cb85c;
+}
+</style>
+</head>
+<body>
+
+<canvas id="game" width="900" height="600"></canvas>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+const player = {
+    x:100,
+    y:100,
+    w:30,
+    h:30,
+    speed:5
+};
+
+const keys = {};
+
+document.addEventListener("keydown",e=>keys[e.key]=true);
+document.addEventListener("keyup",e=>keys[e.key]=false);
+
+function update(){
+    if(keys["ArrowUp"]) player.y -= player.speed;
+    if(keys["ArrowDown"]) player.y += player.speed;
+    if(keys["ArrowLeft"]) player.x -= player.speed;
+    if(keys["ArrowRight"]) player.x += player.speed;
+}
+
+function drawCity(){
+
+    ctx.fillStyle="#666";
+    ctx.fillRect(0,250,900,100);
+
+    ctx.fillStyle="white";
+    for(let i=0;i<900;i+=60){
+        ctx.fillRect(i,295,30,10);
+    }
+
+    ctx.fillStyle="#444";
+    ctx.fillRect(600,80,120,170);
+
+    ctx.fillStyle="#888";
+    ctx.fillRect(120,70,140,180);
+
+    ctx.fillStyle="#555";
+    ctx.fillRect(350,50,160,200);
+}
+
+function drawPlayer(){
+    ctx.fillStyle="red";
+    ctx.fillRect(player.x,player.y,player.w,player.h);
+}
+
+function gameLoop(){
+    ctx.clearRect(0,0,900,600);
+
+    drawCity();
+    update();
+    drawPlayer();
+
+    requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+</script>
+
+</body>
+</html>
